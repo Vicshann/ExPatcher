@@ -1,5 +1,3 @@
-# Script Example
-
 ; Comment 
 +$200 ; Offset from beginning // Optional, only in beginning 
 -$400 ; Offset from end       // Optional, only in beginning 
