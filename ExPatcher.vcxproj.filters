@@ -35,5 +35,8 @@
     <ClInclude Include="COMMON\Utils.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="COMMON\StrUtils.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

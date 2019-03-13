@@ -267,6 +267,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="COMMON\Patcher.hpp" />
+    <ClInclude Include="COMMON\StrUtils.hpp" />
     <ClInclude Include="COMMON\Utils.h" />
     <ClInclude Include="ExPatcher.h" />
   </ItemGroup>

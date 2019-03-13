@@ -30,24 +30,24 @@ void _stdcall SysMain(DWORD UnkArg)
   {
    DBGMSG("Parsing Arg: %s",CmdLine);
    CmdLine = GetCmdLineParam(CmdLine, (LPSTR)&Cmd);
-   if(!StrCompareSimpleIC("-F",(LPSTR)&Cmd))
+   if(NSTR::IsStrEqualIC("-F",(LPSTR)&Cmd))
     {
      ForcePatch = true;
      continue;
     }  
-   if(!StrCompareSimpleIC("-S",(LPSTR)&Cmd))
+   if(NSTR::IsStrEqualIC("-S",(LPSTR)&Cmd))
     {
      CmdLine = GetCmdLineParam(CmdLine, (LPSTR)&Arg);
      if(!AssignFilePath((LPSTR)&ScrtFile, (LPSTR)&StartUpDir, (LPSTR)&Arg)){LOGMSG("No Path in '%s'", (LPSTR)&Cmd); break;}
      continue;
     }       
-   if(!StrCompareSimpleIC("-I",(LPSTR)&Cmd))
+   if(NSTR::IsStrEqualIC("-I",(LPSTR)&Cmd))
     {
      CmdLine = GetCmdLineParam(CmdLine, (LPSTR)&Arg);
      if(!AssignFilePath((LPSTR)&InptFile, (LPSTR)&StartUpDir, (LPSTR)&Arg)){LOGMSG("No Path in '%s'", (LPSTR)&Cmd); break;}
      continue;
     }
-   if(!StrCompareSimpleIC("-O",(LPSTR)&Cmd))
+   if(NSTR::IsStrEqualIC("-O",(LPSTR)&Cmd))
     {
      CmdLine = GetCmdLineParam(CmdLine, (LPSTR)&Arg);
      if(!AssignFilePath((LPSTR)&OutpFile, (LPSTR)&StartUpDir, (LPSTR)&Arg)){LOGMSG("No Path in '%s'", (LPSTR)&Cmd); break;}
