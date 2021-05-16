@@ -4,8 +4,9 @@
 
 #define WIN32_LEAN_AND_MEAN             
 
-#include <windows.h>
-#include "Utils.h"
+//#include <windows.h>
+//#include "Utils.h"
+#include "Common.hpp"
 #include "Patcher.hpp"
 //------------------------------------------------------------------------------------------------------------
                        
