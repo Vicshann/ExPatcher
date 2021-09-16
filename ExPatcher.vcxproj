@@ -73,27 +73,31 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)BUILD\$(ProjectName)\$(Configuration)$(PlatformArchitecture)\</OutDir>
+    <OutDir>D:\TestVM\</OutDir>
     <IntDir>$(SolutionDir)BUILD\$(ProjectName)\$(Configuration)$(PlatformArchitecture)\</IntDir>
     <GenerateManifest>false</GenerateManifest>
+    <TargetName>$(ProjectName)32</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)BUILD\$(ProjectName)\$(Configuration)$(PlatformArchitecture)\</OutDir>
+    <OutDir>D:\TestVM\</OutDir>
     <IntDir>$(SolutionDir)BUILD\$(ProjectName)\$(Configuration)$(PlatformArchitecture)\</IntDir>
     <GenerateManifest>false</GenerateManifest>
+    <TargetName>$(ProjectName)64</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)BUILD\$(ProjectName)\$(Configuration)$(PlatformArchitecture)\</OutDir>
     <IntDir>$(SolutionDir)BUILD\$(ProjectName)\$(Configuration)$(PlatformArchitecture)\</IntDir>
     <GenerateManifest>false</GenerateManifest>
+    <TargetName>$(ProjectName)32</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)BUILD\$(ProjectName)\$(Configuration)$(PlatformArchitecture)\</OutDir>
     <IntDir>$(SolutionDir)BUILD\$(ProjectName)\$(Configuration)$(PlatformArchitecture)\</IntDir>
     <GenerateManifest>false</GenerateManifest>
+    <TargetName>$(ProjectName)64</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -119,6 +123,8 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <AdditionalOptions>/permissive %(AdditionalOptions)</AdditionalOptions>
+      <SupportJustMyCode>false</SupportJustMyCode>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -161,6 +167,8 @@
       <OmitFramePointers>false</OmitFramePointers>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <AdditionalOptions>/permissive %(AdditionalOptions)</AdditionalOptions>
+      <SupportJustMyCode>false</SupportJustMyCode>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -203,6 +211,8 @@
       <OmitFramePointers>true</OmitFramePointers>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <AdditionalOptions>/permissive %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -246,6 +256,8 @@
       <OmitFramePointers>true</OmitFramePointers>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <AdditionalOptions>/permissive %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
