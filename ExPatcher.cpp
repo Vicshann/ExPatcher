@@ -79,6 +79,7 @@ void _stdcall SysMain(DWORD UnkArg)
     OUTMSG("OutpFile: %ls", &OutpFile);
    }
  NSIGP::CSigPatch patch;
+ bool  HaveOutFile = *OutpFile;
 
  HANDLE hFile   = CreateFileX(&ScrtFile,GENERIC_READ,FILE_SHARE_READ|FILE_SHARE_WRITE,NULL,OPEN_EXISTING,FILE_FLAG_SEQUENTIAL_SCAN,NULL);
  if(hFile == INVALID_HANDLE_VALUE){OUTMSG("Failed to open the script file!"); ExitProcess(-1);}
@@ -94,24 +95,30 @@ void _stdcall SysMain(DWORD UnkArg)
    if(hFile == INVALID_HANDLE_VALUE){OUTMSG("Failed to open the input file!"); ExitProcess(-2);}
    LARGE_INTEGER FileSize = {0};
    GetFileSizeEx(hFile, &FileSize);  //GetFileSize(hFile,NULL);
-   HANDLE hMapped = CreateFileMapping(hFile,NULL,PAGE_READWRITE,0,0,NULL);
+   OUTMSG("File size: %08X%08X",FileSize.HighPart,FileSize.LowPart);
+   HANDLE hMapped = CreateFileMapping(hFile,NULL,HaveOutFile?PAGE_WRITECOPY:PAGE_READWRITE,0,0,NULL);            // NoOutput: PAGE_WRITECOPY
    if(!hMapped){OUTMSG("Failed to create the file mapping!"); ExitProcess(0);}
-   PVOID MappedSection = MapViewOfFile(hMapped,FILE_MAP_READ|FILE_MAP_WRITE,0,0,FileSize.QuadPart);
+   PVOID MappedSection = MapViewOfFile(hMapped,(HaveOutFile?FILE_MAP_COPY:FILE_MAP_READ|FILE_MAP_WRITE),0,0,FileSize.QuadPart);   // NoOutput: FILE_MAP_COPY  // NOTE: Won`t map more than 2GB on x32!
    if(!MappedSection){OUTMSG("Failed to map the file!"); ExitProcess(0);}
    OUTMSG("");
    OUTMSG("Patching...");
    if(patch.ApplyPatches(MappedSection,FileSize.QuadPart,1,NSIGP::pfForce * ForcePatch) < 0){OUTMSG("Failed to patch the file!"); ExitProcess(0);}
-   FlushViewOfFile(MappedSection, 0);
+   if(HaveOutFile)
+    {
+     HANDLE hOFile = CreateFileX(&OutpFile,GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE,NULL,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL|FILE_FLAG_SEQUENTIAL_SCAN,NULL);
+     if(hOFile == INVALID_HANDLE_VALUE){OUTMSG("Failed to create the output file!"); ExitProcess(-3);}
+     int res = WriteFile(hOFile,MappedSection,FileSize.QuadPart,&Result,NULL);         // NOTE: the size is DWORD even on x64
+     CloseHandle(hOFile);  
+     OUTMSG("Saved size: %08X of %08X%08X",Result,FileSize.HighPart,FileSize.LowPart);
+    }
+     else FlushViewOfFile(MappedSection, 0);     // NoOutput: Disable
    UnmapViewOfFile(MappedSection);
    CloseHandle(hMapped);
    CloseHandle(hFile);
-  // hFile = CreateFileX(&OutpFile,GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE,NULL,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL|FILE_FLAG_SEQUENTIAL_SCAN,NULL);
-  // if(hFile == INVALID_HANDLE_VALUE){OUTMSG("Failed to create the output file!"); ExitProcess(-3);}
-  // WriteFile(hFile,DataBuf,FileSize.QuadPart,&Result,NULL);
-  // CloseHandle(hFile);  
-   OUTMSG("Saved: %ls", &OutpFile);
+   OUTMSG("Saved: %ls", HaveOutFile?&OutpFile:&InptFile);   // NoOutput: Pass input
   }
    else {OUTMSG("Failed to parse the Patch Script!");}
+ // VirtualFree DataBuf
  OUTMSG("Done!");
  ExitProcess(0);  
 }
